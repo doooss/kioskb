@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString, IsUrl } from 'class-validator';
 import { CommonEntity } from 'src/common/common.entity';
 import { Column, Entity } from 'typeorm';
+import { MenuType } from './menu.type';
 
 @Entity()
 export class MenuEntity extends CommonEntity {
@@ -17,13 +18,13 @@ export class MenuEntity extends CommonEntity {
 
   @ApiProperty({
     description: '제품 종류',
-    type: 'main / sub / drink / premium',
+    type: 'main / sub / drink',
     example: 'main',
   })
   @IsString()
   @IsNotEmpty({ message: '제품 타입을 입력하지 않았습니다' })
   @Column({ type: 'varchar', nullable: false, length: 30 })
-  menuType: string;
+  menuType: MenuType;
 
   @ApiProperty({
     description: '판매량',
