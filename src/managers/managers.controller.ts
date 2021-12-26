@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Res } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Response } from 'express';
 import { Repository } from 'typeorm';
@@ -36,5 +36,9 @@ export class ManagersController {
   @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
     response.clearCookie('jwt');
+  }
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.managersService.deleteMagagerById(id);
   }
 }

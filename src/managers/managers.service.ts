@@ -60,4 +60,11 @@ export class ManagersService {
       throw new BadRequestException(err.mmessage);
     }
   }
+
+  async deleteMagagerById(id: string) {
+    const manager = await this.managerRepository.findOne({ id });
+    if (!manager) throw new UnauthorizedException('올바르지 않은 접근입니다');
+
+    await this.managerRepository.remove(manager);
+  }
 }
