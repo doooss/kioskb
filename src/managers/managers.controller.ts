@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Param, Post, Res } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Response } from 'express';
 import { Repository } from 'typeorm';
@@ -15,10 +16,17 @@ export class ManagersController {
     private readonly managerRepository: Repository<ManagerEntity>,
   ) {}
 
+  @ApiOperation({
+    summary: '회원가입',
+  })
   @Post('signup')
   async create(@Body() createManagerDto: CreateManagerDto) {
     return await this.managersService.register(createManagerDto);
   }
+
+  @ApiOperation({
+    summary: '로그인',
+  })
   @Post('signin')
   async signIn(
     @Body() signInManagerDto: SignInManagerDto,
@@ -33,10 +41,17 @@ export class ManagersController {
     return manager;
   }
 
+  @ApiOperation({
+    summary: '로그아웃',
+  })
   @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
     response.clearCookie('jwt');
   }
+
+  @ApiOperation({
+    summary: '탈퇴',
+  })
   @Delete(':id')
   async delete(@Param('id') id: string) {
     return await this.managersService.deleteMagagerById(id);

@@ -50,12 +50,19 @@ export class ManagersService {
     if (!manager) throw new UnauthorizedException('이메일을 확인해주세요');
     if (!(await bcrypt.compare(password, manager.password)))
       throw new UnauthorizedException('비밀번호를 확인해주세요');
+
+    const managerInfo = {
+      email: manager.email,
+      grade: manager.grade,
+      permissionLevel: manager.permissionLevel,
+      id: manager.id,
+    };
     try {
       const jwt = await this.jwtService.signAsync(
         { sub: manager.id },
         { secret: process.env.SECRET_KEY },
       );
-      return { jwt, manager };
+      return { jwt, manager: managerInfo };
     } catch (err) {
       throw new BadRequestException(err.mmessage);
     }
